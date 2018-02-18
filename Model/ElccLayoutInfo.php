@@ -15,21 +15,31 @@ class ElccLayoutInfo  {
 	private function get_template_data($file_path){
 		$raw_xml = file_get_contents($file_path);
 
-		preg_match_all('/^(.*?%%editable:(.*?)%%.*?)$/um', $raw_xml, $editables, PREG_SET_ORDER);
+		preg_match_all('/^(.*?%%(editable|block-title):(.*?)%%.*?)$/um', $raw_xml, $editables, PREG_SET_ORDER);
 		preg_match_all('/^\\* layout_info:(.*?):(.*?)$/um', $raw_xml, $layout_info, PREG_SET_ORDER);
 
-		foreach ($editables as &$editable) {
-			preg_match('/name="(.*?)"/um', $editable[1], $name);
-			preg_match('/xsi\:type="(.*?)"/um', $editable[1], $xsi_type);
+		foreach ($editables as &$_editable) {
+			preg_match('/name="(.*?)"/um', $_editable[1], $name);
 
 			$editable = [
-				'line' => trim($editable[1]),
-				'type' => $editable[2],
-				'name' => $name[1],
-				'xsi_type' => $xsi_type[1]
+				'line' => trim($_editable[1]),
+				'type' => $_editable[3],
+				'name' => $name[1]
 			];
-		}
 
+			if($_editable[2]=='block-title'){
+				$editable['type'] = 'block-title';
+				$editable['name'] = $_editable[3];
+			}
+			else
+			{
+				preg_match('/xsi\:type="(.*?)"/um', $_editable[1], $xsi_type);
+				$editable['xsi_type'] = $xsi_type[1];
+			}
+
+			$_editable = $editable;
+		}
+		
 		foreach ($layout_info as &$info_line) {
 			$info_line = [
 				'value' => trim($info_line[2]),
