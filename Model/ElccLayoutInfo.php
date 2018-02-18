@@ -9,7 +9,7 @@ class ElccLayoutInfo  {
 	private $files;
 
 	public function __construct(Files $files){
-		$this->files = $files;
+		$this->files = $files->getPageLayoutFiles();
 	}
 
 	private function get_template_data($file_path){
@@ -45,10 +45,10 @@ class ElccLayoutInfo  {
 		];
 	}
 
-	private function getElccTemplates($files){
+	private function getElccTemplates(){
 		$this->elcc_templates = [];
 
-		foreach ($files->getPageLayoutFiles() as $i => $file) {
+		foreach ($this->files as $i => $file) {
 
 			if(preg_match('/layout_update_xml_templates/u', $file[0]))
 			{
@@ -60,7 +60,7 @@ class ElccLayoutInfo  {
 	}
 
 	public function get_templates(){
-		$this->getElccTemplates($this->files);
+		$this->getElccTemplates();
 
 		return $this->elcc_templates;
 	}

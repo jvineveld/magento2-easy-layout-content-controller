@@ -11,8 +11,7 @@ define([
 
     return AbstractField.extend({
         defaults: {
-            template: 'ui/form/components/single/field',
-
+            template: 'Jvi_Elcc/content-controller',
             listens: { }
         },
 

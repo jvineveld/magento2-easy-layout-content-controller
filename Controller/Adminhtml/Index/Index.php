@@ -3,6 +3,7 @@
 namespace Jvi\Elcc\Controller\Adminhtml\Index;
 
 class Index extends \Magento\Backend\App\AbstractAction {
+	private $templates;
 
 	/**
 	 * @param \Magento\Backend\App\Action\Context $context
@@ -14,7 +15,7 @@ class Index extends \Magento\Backend\App\AbstractAction {
 		,\Jvi\Elcc\Model\ElccLayoutInfo $layoutInfo
 	) {
 		parent::__construct($context);
-		var_dump($layoutInfo->get_templates());
+		$this->templates = $layoutInfo->get_templates();
 		$this->resultJsonFactory = $resultJsonFactory;
 	}
 
@@ -24,6 +25,6 @@ class Index extends \Magento\Backend\App\AbstractAction {
 	public function execute() {
 		/** @var \Magento\Framework\Controller\Result\Json $result */
 		$result = $this->resultJsonFactory->create();
-		return $result->setData(['success' => false]);
+		return $result->setData(['templates' => $this->templates]);
 	}
 }
