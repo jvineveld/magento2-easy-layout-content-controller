@@ -5,9 +5,3 @@ Goal:
 * Display options at cms page, so clients can only say what the content should be. The layout is predefined and unchangable.
 
 ## Under development !! NOT WORKING
-
-Found class propably usefull to use:
-vendor/magento/framework/App/Utility/Files.php
-
-api url:
-/admin/elcc/index/
