@@ -18,7 +18,7 @@ class ElccLayoutInfo  {
 		return [
 			'raw' => $raw_xml,
 			'file_path' => $file_path
-		]
+		];
 	}
 
 	private function getElccTemplates($files){
