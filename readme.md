@@ -8,3 +8,6 @@ Goal:
 
 Found class propably usefull to use:
 vendor/magento/framework/App/Utility/Files.php
+
+api url:
+/admin/elcc/index/

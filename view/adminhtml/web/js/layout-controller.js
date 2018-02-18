@@ -1,41 +1,12 @@
-// /**
-//  * A sweet layout controller for pages and categories
-//  * @author 42functions
-//  */
-// define([
-//     "jquery"
-// ], function ($) {
-//     'use strict';
-//     $.widget('mage.EasyLayoutContentController', {
-//         options: {
-// 			// options
-// 		},
-//         _create: function () {
-//
-// 			this.initContainer = function(el){
-// 				console.log('hello', el)
-//
-// 				return this;
-// 			}
-// 			console.log('omg, created, so awesome', this)
-// 		}
-//     });
-//
-//     return $.mage.EasyLayoutContentController;
-// });
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
-
 /**
  * @api
  */
 define([
     'Magento_Ui/js/form/element/abstract',
     'underscore',
-    'mage/translate'
-], function (AbstractField, _, __) {
+    'mage/translate',
+	'jquery'
+], function (AbstractField, _, __, $) {
     'use strict';
 
     return AbstractField.extend({
@@ -51,7 +22,7 @@ define([
         initConfig: function (config) {
             this._super();
 
-            console.log(this)
+			console.log('omg, created, so awesome', this)
 
             return this;
         },
