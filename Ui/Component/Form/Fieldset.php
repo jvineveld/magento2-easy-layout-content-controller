@@ -50,14 +50,16 @@ class Fieldset extends BaseFieldset
                 'label' => $editable['name'],
                 'value' => '',
                 'formElement' => 'input',
-				'required' => true
+				'required' => true,
+				'additionalClasses' => "elcc-field"
             ];
 
 			if($editable['type']=='block-title'){
-				//$field['formElement'] = 'html';
+				$field['elementTmpl'] = 'Jvi_Elcc/form/elements/title';
 				$field['value'] = $editable['name'];
 				$field['text'] = $editable['name'];
 				$field['required'] = false;
+				$field['additionalClasses'] = "elcc-header";
 			}
 
 			if($editable['type']=='image'){
