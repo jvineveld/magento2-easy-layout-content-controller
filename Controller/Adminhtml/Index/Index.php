@@ -14,7 +14,7 @@ class Index extends \Magento\Backend\App\AbstractAction {
 		,\Jvi\Elcc\Model\ElccLayoutInfo $layoutInfo
 	) {
 		parent::__construct($context);
-		var_dump($layoutInfo->test());
+		var_dump($layoutInfo->get_templates());
 		$this->resultJsonFactory = $resultJsonFactory;
 	}
 

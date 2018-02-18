@@ -6,10 +6,10 @@ use \Magento\Framework\App\Utility\Files;
 
 class ElccLayoutInfo  {
 	public $elcc_templates;
+	private $files;
 
 	public function __construct(Files $files){
-		$elcc_templates = $this->getElccTemplates($files);
-		var_dump($elcc_templates);
+		$this->files = $files;
 	}
 
 	private function get_template_data($file_path){
@@ -59,7 +59,9 @@ class ElccLayoutInfo  {
 		return $this->elcc_templates;
 	}
 
-	public function test (){
-		return 'haha';
+	public function get_templates(){
+		$this->getElccTemplates($this->files);
+
+		return $this->elcc_templates;
 	}
 }
