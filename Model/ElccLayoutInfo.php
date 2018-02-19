@@ -14,6 +14,7 @@ class ElccLayoutInfo  {
 
 	private function get_template_data($file_path){
 		$raw_xml = file_get_contents($file_path);
+		$layout_info = false;
 
 		preg_match_all('/^(.*?%%(editable|block-title):(.*?)%%.*?)$/um', $raw_xml, $editables, PREG_SET_ORDER);
 		preg_match_all('/^\\* layout_info:(.*?):(.*?)$/um', $raw_xml, $layout_info, PREG_SET_ORDER);
@@ -25,18 +26,22 @@ class ElccLayoutInfo  {
 
 			$editable = [
 				'line' => trim($_editable[1]),
-				'type' => $type_parts[0],
-				'name' => isset($type_parts[1]) ? $type_parts[1] : $name[1]
+				'type' => trim($type_parts[0]),
+				'name' => isset($type_parts[1]) ? trim($type_parts[1]) : trim($name[1])
 			];
 
 			if($_editable[2]=='block-title'){
 				$editable['type'] = 'block-title';
-				$editable['name'] = $_editable[3];
+				$editable['name'] = trim($_editable[3]);
 			}
 			else
 			{
 				preg_match('/xsi\:type="(.*?)"/um', $_editable[1], $xsi_type);
 				$editable['xsi_type'] = $xsi_type[1];
+			}
+
+			if(isset($type_parts[2])){
+				$editable['note'] = trim($type_parts[2]);
 			}
 
 			$_editable = $editable;
