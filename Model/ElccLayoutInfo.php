@@ -21,10 +21,12 @@ class ElccLayoutInfo  {
 		foreach ($editables as &$_editable) {
 			preg_match('/name="(.*?)"/um', $_editable[1], $name);
 
+			$type_parts = explode(':', $_editable[3]);
+
 			$editable = [
 				'line' => trim($_editable[1]),
-				'type' => $_editable[3],
-				'name' => $name[1]
+				'type' => $type_parts[0],
+				'name' => isset($type_parts[1]) ? $type_parts[0] : $name[1]
 			];
 
 			if($_editable[2]=='block-title'){
@@ -39,7 +41,7 @@ class ElccLayoutInfo  {
 
 			$_editable = $editable;
 		}
-		
+
 		foreach ($layout_info as &$info_line) {
 			$info_line = [
 				'value' => trim($info_line[2]),
