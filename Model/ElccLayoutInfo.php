@@ -26,7 +26,7 @@ class ElccLayoutInfo  {
 			$editable = [
 				'line' => trim($_editable[1]),
 				'type' => $type_parts[0],
-				'name' => isset($type_parts[1]) ? $type_parts[0] : $name[1]
+				'name' => isset($type_parts[1]) ? $type_parts[1] : $name[1]
 			];
 
 			if($_editable[2]=='block-title'){
