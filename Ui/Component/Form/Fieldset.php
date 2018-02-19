@@ -45,6 +45,15 @@ class Fieldset extends BaseFieldset
 		$layout = $this->templates[$this->current_layout];
 		$fields = [];
 
+		if(!empty($layout['info'])){
+			$fields[] = [
+				'label' => ' ',
+				'value' => $layout['info'][0]['value'],
+				'formElement' => 'input',
+				'elementTmpl' => 'Jvi_Elcc/form/elements/head'
+			];
+		}
+
 		foreach ($layout['editables'] as $i => $editable) {
 			$field = [
                 'label' => $editable['name'],
