@@ -1,0 +1,11 @@
+.elcc-header
+{
+	background: #e8e8e8;
+	padding-top: 10px !important;
+	padding-bottom: 10px !important;
+}
+
+.elcc-header .admin__field-label
+{
+	font-size: 1.6rem;
+}
