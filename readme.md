@@ -5,7 +5,7 @@ Goal:
 * Display options at cms page, so clients can only say what the content should be. The layout is predefined and unchangeable.
 
 ## Under development !! NOT WORKING
-Like really really in development.
+Like really really in development. nothing works, don't expect something.
 
 ## templates
 This plugin requires you to create a folder, in the `[Your_Theme]/Magento_Theme/page_layout/` folder.
