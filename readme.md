@@ -5,6 +5,7 @@ Goal:
 * Display options at cms page, so clients can only say what the content should be. The layout is predefined and unchangeable.
 
 ## Under development !! NOT WORKING
+Like really really in development.
 
 ## templates
 This plugin requires you to create a folder, in the `[Your_Theme]/Magento_Theme/page_layout/` folder.
@@ -40,6 +41,8 @@ Insert at the start of the document in a comment, on a separate rule exactly fol
 
 Layout info currently only has the title option
 
+## example template xml
+
 ```xml
 <!--
 /**
@@ -49,8 +52,8 @@ Layout info currently only has the title option
 <referenceContainer name="container_name">
     <referenceBlock name="block_name"><!-- %%block-title: Title of the block %% -->
 		<arguments>
-          <argument name="parameter_name" xsi:type="string">%%editable: type : Title %%Default title</argument>
-          <argument name="parameter_name" xsi:type="string">%%editable: image : Background image %%</argument>
+          <argument name="parameter_name_1" xsi:type="string">%%editable: type : Title %%Default title</argument>
+          <argument name="parameter_name_2" xsi:type="string">%%editable: image : Background image %%</argument>
         </arguments>
     </referenceBlock>
 </referenceContainer>
