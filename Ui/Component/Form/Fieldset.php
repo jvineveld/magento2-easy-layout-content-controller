@@ -110,8 +110,6 @@ class Fieldset extends BaseFieldset
 		$current_block = 0;
 		$current_block_name = '';
 
-		//var_dump($page_data = $this->get_page_data());
-
 		if(!empty($layout['info'])){
 			$fields[] = [
 				'label' => '',
@@ -149,9 +147,13 @@ class Fieldset extends BaseFieldset
 
 			if($editable['type']=='image'){
 				$field['formElement'] = 'fileUploader';
-        		$field['data-form-part'] = $this->getData('target_form');
+				$field['isMultipleFiles'] = false;
+				$field['uploaderConfig'] = [
+					'url' => 'elcc/form/images/upload'
+				];
         		$field['value'] = '';
         		$field['note'] = __('Allowed image types: jpg,png');
+				$field['dataScope'] = 'elccimage['.$current_block.']['.$scope_name.']['.$editable['type'].']';
 			}
 
 			$fields[] = $field;

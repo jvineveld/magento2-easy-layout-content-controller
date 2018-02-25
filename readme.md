@@ -26,8 +26,7 @@ Format for editable: `%%editable: text : Title : This is the title %%`. When you
 
 If you want to define a default value, you can just type a value after the template literal (inside the argument's content).
 
-Example of a file:
-For example: `[Your_Theme]/Magento_Theme/page_layout/layout_update_xml_templates/example-layout.xml`
+Example of a file path to layout: `[Your_Theme]/Magento_Theme/page_layout/layout_update_xml_templates/example-layout.xml`
 
 ### Define block wrappers
 Format for block-title: `%%block-title: Title of the block %%`
