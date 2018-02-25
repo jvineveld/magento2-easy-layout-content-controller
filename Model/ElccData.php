@@ -2,10 +2,9 @@
 
 namespace Jvi\Elcc\Model;
 
-use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
-use Magento\Framework\Model\ResourceModel\Db\Context;
+use Magento\Framework\Model\AbstractModel;
 
-class ElccData extends AbstractDb
+class ElccData extends AbstractModel
 {
     protected function _construct()
     {

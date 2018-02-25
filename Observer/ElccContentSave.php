@@ -4,7 +4,7 @@ namespace Jvi\Elcc\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Event\Observer;
-use Jvi\Elcc\Model\ElccData;
+use Jvi\Elcc\Model\ElccDataFactory;
 
 /**
  * Class LcSaveBefore
@@ -25,10 +25,10 @@ class ElccContentSave implements ObserverInterface
      */
     public function __construct(
         RequestInterface $request,
-		ElccData $elcc_data
+		ElccDataFactory $elcc_data
     ) {
         $this->request = $request;
-		$this->elcc_data = $elcc_data->create();
+		$this->elcc_data = $elcc_data->create()->getCollection();
     }
 
     /**
@@ -38,37 +38,35 @@ class ElccContentSave implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
-		foreach ($_POST['elcc'] as $num => $section) {
-			foreach($section as $name => $field){
-				foreach($field as $type => $value){
-				//	$name =  str_replace('----', '.', $name); // fix for . breaking forms
-				//	echo '------'.'New row!'."\n";
-				//	var_dump($num, $name, $type, $value);
-				}
-			}
-		}
-
-		$page_id = $_POST['page_id'];
+		$page_id = $this->request->getParam('page_id');
 		$content_type = 'page'; // for now just pages
-		$elcc_data = json_encode($_POST['elcc']);
-
-		$rowData = [
-			'target_id' => $page_id,
-			'type'	=> $content_type,
-			'data'	=> $elcc_data
-		];
+		$json_post_data = json_encode($this->request->getParam('elcc'));
 
 		try {
-			$collection = $this->elcc_data->getCollection();
-			//var_dump($collection);
-		     $collection->setData($rowData)
-		     ->save();
+			$elcc_data = $this->elcc_data;
+			$current_page_data = $elcc_data->addFieldToFilter('target_id', $page_id);
+
+			if(!count($current_page_data->getSize())){
+				$data = $elcc_data->getNewEmptyItem();
+		     	$data->setData('target_id', $page_id);
+				$data->setData('type', $content_type);
+				$data->setData('data', $json_post_data);
+
+			    $data->save();
+			}
+			else
+			{
+				$current_page_data = $current_page_data->getFirstItem();
+		     	$current_page_data->setData('target_id', $page_id);
+				$current_page_data->setData('type', $content_type);
+				$current_page_data->setData('data', $json_post_data);
+
+				$current_page_data->save();
+			}
 		} catch (Exception $e) {
 		    echo $e->getMessage();
 		}
 
-		var_dump();
-		exit();
         if ($customFieldValue = $this->request->getParam('elcc_data')) {
             $namespaceModel->setCustomField($customFieldValue);
         }
