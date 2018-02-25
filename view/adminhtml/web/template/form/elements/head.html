@@ -4,10 +4,5 @@
  * See COPYING.txt for license details.
  */
 -->
-<h3 style="display:block;" class="a-center admin__field-value"
-       data-bind="
-        html: value,
-        attr: {
-            name: inputName,
-            id: uid
-    }"/>
+<h3 style="display:block;" class="a-center admin__field-value" data-bind="html: value"/>
+<input type="hidden" data-bind="value: value, attr: { name: inputName, id: uid }">

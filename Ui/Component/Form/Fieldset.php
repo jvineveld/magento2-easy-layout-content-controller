@@ -44,10 +44,11 @@ class Fieldset extends BaseFieldset
 
 		$layout = $this->templates[$this->current_layout];
 		$fields = [];
+		$current_block = 0;
 
 		if(!empty($layout['info'])){
 			$fields[] = [
-				'label' => ' ',
+				'label' => '',
 				'value' => $layout['info'][0]['value'],
 				'formElement' => 'input',
 				'elementTmpl' => 'Jvi_Elcc/form/elements/head'
@@ -55,12 +56,20 @@ class Fieldset extends BaseFieldset
 		}
 
 		foreach ($layout['editables'] as $i => $editable) {
+
+			$scope_name = str_replace('.', '----',$editable['tag_name']); // because . will break form post variables names, and ---- wont be used to often i think..
+
+			if($editable['type']=='block-title'){
+				$current_block++;
+			}
+
 			$field = [
                 'label' => $editable['name'],
                 'value' => '',
                 'formElement' => 'input',
 				'required' => true,
-				'additionalClasses' => "elcc-field"
+				'additionalClasses' => "elcc-field",
+				'dataScope'		=> 'elcc['.$current_block.']['.$scope_name.']['.$editable['type'].']'
             ];
 
 			if($editable['type']=='block-title'){
@@ -73,6 +82,9 @@ class Fieldset extends BaseFieldset
 
 			if($editable['type']=='image'){
 				$field['formElement'] = 'fileUploader';
+        		$field['data-form-part'] = $this->getData('target_form');
+        		$field['value'] = '';
+        		$field['note'] = __('Allowed image types: jpg,png');
 			}
 
 			$fields[] = $field;
