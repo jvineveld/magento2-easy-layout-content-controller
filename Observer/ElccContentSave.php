@@ -31,6 +31,15 @@ class ElccContentSave implements ObserverInterface
 		$this->elcc_data = $elcc_data->create()->getCollection();
     }
 
+	// merge both fields and images to save in to data column
+	public function merge_fields(){
+
+		$field_data = $this->request->getParam('elcc');
+		$images_data = $this->request->getParam('elccimage');
+
+		return array_merge_recursive($field_data, $images_data);
+	}
+
     /**
      * @param Observer $observer
      *
@@ -40,7 +49,7 @@ class ElccContentSave implements ObserverInterface
     {
 		$page_id = $this->request->getParam('page_id');
 		$content_type = 'page'; // for now just pages
-		$json_post_data = json_encode($this->request->getParam('elcc'));
+		$json_post_data = json_encode($this->merge_fields());
 
 		try {
 			$elcc_data = $this->elcc_data;

@@ -42,27 +42,6 @@ class Fieldset extends BaseFieldset
 		$this->current_layout = 0;
     }
 
-	private function sort_by_block_names($page_data){
-		$data = [];
-		$page_data = json_decode($page_data);
-		$current_section_name = '';
-
-		foreach ($page_data as $name => $section) {
-			foreach($section as $name => $field){
-				foreach($field as $type => $value){
-					if($type=='block-title'){
-						$current_section_name = $name;
-					}
-					else {
-						$data[$current_section_name][$name] = $value;
-					}
-				}
-			}
-		}
-
-		return $data;
-	}
-
 	private function get_page_data(){
 		if(!empty($this->page_data))
 			return $this->page_data;
@@ -72,27 +51,28 @@ class Fieldset extends BaseFieldset
 		$data = $this->elcc_data->getCollection();
 		$page_data = $data->addFieldToFilter('target_id', $page_id)->getFirstItem();
 
-		$this->page_data = $this->sort_by_block_names($page_data->getData()['data']);
-
-		return $this->page_data;
+		return json_decode($page_data->getData()['data']);
 	}
 
 	private function get_value($section, $field){
 		$page_data = $this->get_page_data();
 
-		if(!isset($page_data[$section]))
+		if(!isset($page_data->$section))
 		{
-			// Todo: just find the first occurrence of the name
+			// fallback Todo: just find the first occurrence of the name
 
 			return "";
 		}
 
-		if(!isset($page_data[$section][$field]))
+		if(!isset($page_data->$section->$field))
 		{
+			// no match found in data
+
 			return "";
 		}
 
-		return $page_data[$section][$field];
+		// return match
+		return $page_data->$section->$field;
 	}
 
     /**
@@ -134,7 +114,7 @@ class Fieldset extends BaseFieldset
                 'formElement' => 'input',
 				'required' => true,
 				'additionalClasses' => "elcc-field",
-				'dataScope'		=> 'elcc['.$current_block.']['.$scope_name.']['.$editable['type'].']'
+				'dataScope'		=> 'elcc['.$current_block_name.']['.$scope_name.']'
             ];
 
 			if($editable['type']=='block-title'){
@@ -146,14 +126,14 @@ class Fieldset extends BaseFieldset
 			}
 
 			if($editable['type']=='image'){
+				//var_dump($this->get_value($current_block_name, $editable['tag_name']),$current_block_name, $editable['tag_name']);
 				$field['formElement'] = 'fileUploader';
 				$field['isMultipleFiles'] = false;
 				$field['uploaderConfig'] = [
-					'url' => 'elcc/form/images/upload'
+					'url' => 'elcc/index/save/'
 				];
-        		$field['value'] = '';
         		$field['note'] = __('Allowed image types: jpg,png');
-				$field['dataScope'] = 'elccimage['.$current_block.']['.$scope_name.']['.$editable['type'].']';
+				$field['dataScope'] = 'elccimage['.$current_block_name.']['.$scope_name.']';
 			}
 
 			$fields[] = $field;
