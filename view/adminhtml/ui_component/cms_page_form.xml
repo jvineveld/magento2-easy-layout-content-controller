@@ -7,7 +7,8 @@
         </settings>
     </fieldset>
 	<fieldset name="design">
-		<field name="elcc_active" sortOrder="100" formElement="checkbox">
+		<field name="page_layout" />
+		<field name="elcc_active" formElement="checkbox">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="source" xsi:type="string">elcc_active</item>
