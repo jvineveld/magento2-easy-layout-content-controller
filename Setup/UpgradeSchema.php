@@ -55,9 +55,31 @@ class UpgradeSchema implements UpgradeSchemaInterface
 	                ->setOption('charset', 'utf8');
 	            $installer->getConnection()->createTable($table);
 	        }
-
-	        $installer->endSetup();
         }
+
+		if (version_compare($context->getVersion(), '1.0.2') < 0) {
+			$installer->getConnection()->addColumn(
+			   $tableName,
+			   'active',
+			   [
+				   'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+				   'length' => 1,
+				   'nullable' => false,
+				   'comment' => 'Is active'
+			   ]
+		   );
+
+		   $installer->getConnection()->addColumn(
+			  $tableName,
+			  'template',
+			  [
+				  'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+				  'length' => null,
+				  'nullable' => false,
+				  'comment' => 'Chosen template path'
+			  ]
+		  );
+		}
 
 
         $installer->endSetup();
