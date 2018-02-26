@@ -51,6 +51,20 @@ class InstallSchema implements InstallSchemaInterface
                     ['nullable' => false, 'default' => ''],
                     'Data'
                 )
+				->addColumn(
+                    'active',
+                    Table::TYPE_INTEGER,
+                    null,
+                    ['nullable' => false, 'default' => ''],
+                    'Is active'
+                )
+				->addColumn(
+                    'template',
+                    Table::TYPE_TEXT,
+                    null,
+                    ['nullable' => false, 'default' => ''],
+                    'Chosen template path'
+                )
                 ->setComment('Easy layout content control dataset')
                 ->setOption('type', 'InnoDB')
                 ->setOption('charset', 'utf8');
