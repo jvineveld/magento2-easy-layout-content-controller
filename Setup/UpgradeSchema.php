@@ -121,6 +121,21 @@ class UpgradeSchema implements UpgradeSchemaInterface
 		  );
 		}
 
+		if (version_compare($context->getVersion(), '1.0.5') < 0) {
+			$tableName = $installer->getTable('cms_page');
+
+			$installer->getConnection()->addColumn(
+			   $tableName,
+			   'elcc_generated',
+			   [
+				   'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+ 				   'length' => null,
+				   'nullable' => false,
+				   'comment' => 'The chosen template with all the template literals replaced / removed.'
+			   ]
+		   );
+		}
+
         $installer->endSetup();
 
     }

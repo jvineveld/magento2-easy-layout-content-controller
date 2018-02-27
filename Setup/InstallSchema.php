@@ -87,6 +87,21 @@ class InstallSchema implements InstallSchemaInterface
 		  );
 		}
 
+		// add elcc generated xml data
+		if ($connection->tableColumnExists($tableName, 'elcc_generated') === false){
+		   $installer->getConnection()->addColumn(
+			  $tableName,
+			  'elcc_generated',
+			  [
+				  'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+				  'length' => null,
+				  'nullable' => false,
+				  'comment' => 'The chosen template with all the template literals replaced / removed.'
+			  ]
+		  );
+		}
+
+
         $installer->endSetup();
     }
 }
