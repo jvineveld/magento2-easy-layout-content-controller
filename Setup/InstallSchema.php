@@ -15,6 +15,7 @@ class InstallSchema implements InstallSchemaInterface
         $installer->startSetup();
 
         $tableName = $installer->getTable('elcc_data');
+		// add elcc page data table
         if ($installer->getConnection()->isTableExists($tableName) != true) {
             $table = $installer->getConnection()
                 ->newTable($tableName)
@@ -51,25 +52,40 @@ class InstallSchema implements InstallSchemaInterface
                     ['nullable' => false, 'default' => ''],
                     'Data'
                 )
-				->addColumn(
-                    'active',
-                    Table::TYPE_INTEGER,
-                    null,
-                    ['nullable' => false, 'default' => ''],
-                    'Is active'
-                )
-				->addColumn(
-                    'template',
-                    Table::TYPE_TEXT,
-                    null,
-                    ['nullable' => false, 'default' => ''],
-                    'Chosen template path'
-                )
                 ->setComment('Easy layout content control dataset')
                 ->setOption('type', 'InnoDB')
                 ->setOption('charset', 'utf8');
             $installer->getConnection()->createTable($table);
         }
+
+		// add elcc active data
+		$tableName = $installer->getTable('cms_page');
+		if ($connection->tableColumnExists($tableName, 'elcc_active') === false){
+			$installer->getConnection()->addColumn(
+			   $tableName,
+			   'elcc_active',
+			   [
+				   'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+				   'length' => 1,
+				   'nullable' => false,
+				   'comment' => 'Is easy layout content controller active for this page?'
+			   ]
+		   );
+	    }
+
+		// add elcc page template data
+		if ($connection->tableColumnExists($tableName, 'elcc_template') === false){
+		   $installer->getConnection()->addColumn(
+			  $tableName,
+			  'elcc_template',
+			  [
+				  'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+				  'length' => null,
+				  'nullable' => false,
+				  'comment' => 'Chosen template path'
+			  ]
+		  );
+		}
 
         $installer->endSetup();
     }

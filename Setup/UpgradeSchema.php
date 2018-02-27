@@ -81,6 +81,45 @@ class UpgradeSchema implements UpgradeSchemaInterface
 		  );
 		}
 
+		if (version_compare($context->getVersion(), '1.0.3') < 0) {
+			$tableName = $installer->getTable('cms_page');
+
+			$installer->getConnection()->addColumn(
+			   $tableName,
+			   'elcc_active',
+			   [
+				   'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+				   'length' => 1,
+				   'nullable' => false,
+				   'comment' => 'Is easy layout content controller active for this page?'
+			   ]
+		   );
+
+		   $installer->getConnection()->addColumn(
+			  $tableName,
+			  'elcc_template',
+			  [
+				  'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+				  'length' => null,
+				  'nullable' => false,
+				  'comment' => 'Chosen template path'
+			  ]
+		  );
+		}
+
+		if (version_compare($context->getVersion(), '1.0.4') < 0) {
+			$installer->getConnection()->dropColumn(
+			   $tableName,
+			   'active',
+			   $schemaName = null
+		   );
+
+		   $installer->getConnection()->dropColumn(
+			  $tableName,
+			  'template',
+			  $schemaName = null
+		  );
+		}
 
         $installer->endSetup();
 

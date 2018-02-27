@@ -8,6 +8,7 @@ use Magento\Framework\Data\OptionSourceInterface;
 class ElccTemplateSelectDataprovider implements OptionSourceInterface {
 	private $_request;
 	private $_layout_info;
+	private $loadedData;
 
 	/**
      * @var array

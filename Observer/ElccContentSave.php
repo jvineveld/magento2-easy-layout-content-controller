@@ -48,8 +48,11 @@ class ElccContentSave implements ObserverInterface
     public function execute(Observer $observer)
     {
 		$page_id = $this->request->getParam('page_id');
-		$elcc_active = $this->request->getParam('elcc_active');
-		$template = $this->request->getParam('elcc_template');
+		$field_data = $this->request->getParam('elcc');
+
+		if(empty($field_data)){
+			return $this;
+		}
 
 		$content_type = 'page'; // for now just pages
 		$json_post_data = json_encode($this->merge_fields());
@@ -61,9 +64,6 @@ class ElccContentSave implements ObserverInterface
 			if(!count($current_page_data->getSize())){
 				$data = $elcc_data->getNewEmptyItem();
 
-				$data->setData('active', $elcc_active);
-				$data->setData('template', $template);
-
 		     	$data->setData('target_id', $page_id);
 				$data->setData('type', $content_type);
 				$data->setData('data', $json_post_data);
@@ -73,8 +73,6 @@ class ElccContentSave implements ObserverInterface
 			else
 			{
 				$current_page_data = $current_page_data->getFirstItem();
-				$current_page_data->setData('active', $elcc_active);
-				$current_page_data->setData('template', $template);
 		     	$current_page_data->setData('target_id', $page_id);
 				$current_page_data->setData('type', $content_type);
 				$current_page_data->setData('data', $json_post_data);

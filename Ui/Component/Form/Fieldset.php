@@ -8,6 +8,7 @@ use Magento\Ui\Component\Form\FieldFactory;
 use Magento\Ui\Component\Form\Fieldset as BaseFieldset;
 use Jvi\Elcc\Model\ElccLayoutInfo as layoutInfo;
 use Jvi\Elcc\Model\ElccDataFactory;
+use Magento\Cms\Model\Page;
 
 class Fieldset extends BaseFieldset
 {
@@ -20,12 +21,15 @@ class Fieldset extends BaseFieldset
 	private $request;
 	private $elcc_data;
 	private $page_data;
+	private $current_page_data;
+	private $pageResource;
 
     public function __construct(
         ContextInterface $context,
         array $components = [],
         array $data = [],
         FieldFactory $fieldFactory,
+		Page $pageResource,
 		layoutInfo $layout,
 		RequestInterface $request,
 		ElccDataFactory $elcc_data)
@@ -36,11 +40,32 @@ class Fieldset extends BaseFieldset
 		$this->request = $request;
 		$this->elcc_data = $elcc_data->create();
 		$this->page_data = [];
+		$this->pageResource = $pageResource;
+		$this->current_page_data = $this->get_current_page_data();
 
 		// tmp hardcoded
-		$this->enabled = true;
-		$this->current_layout = 0;
+		$this->enabled = $this->get_page_option('elcc_active');
+		$this->current_layout = $this->get_page_option('elcc_template');
     }
+
+	private function get_current_page_data(){
+		$pages_data = $this->pageResource->getCollection();
+		$page_id = $this->request->getParam('page_id');
+		$current_page_data = $pages_data->addFieldToFilter('page_id', $page_id);
+
+		if($current_page_data->getData())
+			return $current_page_data->getData()[0];
+		else
+			return [];
+	}
+
+	private function get_page_option($name){
+		if(isset($this->current_page_data[$name]))
+			return $this->current_page_data[$name];
+		else
+			return false;
+
+	}
 
 	private function get_page_data(){
 		if(!empty($this->page_data))
@@ -75,6 +100,15 @@ class Fieldset extends BaseFieldset
 		return $page_data->$section->$field;
 	}
 
+	private function find_layout_in_templates($layout_path){
+		foreach($this->templates as $template){
+			if($template['file_path']==$layout_path)
+				return $template;
+		}
+
+		return false;
+	}
+
     /**
      * Get components
      *
@@ -82,10 +116,7 @@ class Fieldset extends BaseFieldset
      */
     public function getChildComponents()
     {
-		if(!$this->enabled)
-			return parent::getChildComponents();
-
-		$layout = $this->templates[$this->current_layout];
+		$layout = $this->find_layout_in_templates($this->current_layout);
 		$fields = [];
 		$current_block = 0;
 		$current_block_name = '';
