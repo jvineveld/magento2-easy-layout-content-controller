@@ -6,8 +6,8 @@ namespace Jvi\Elcc\Model;
  */
 class ElccLayoutMerge
 {
-	public function __construct() {
-
+	public function __construct(\Magento\Cms\Model\Page $resourcePage) {
+		$this->page = $resourcePage;
 	}
 
     /**
@@ -24,18 +24,14 @@ class ElccLayoutMerge
         \Closure $proceed,
         $handle
     ) {
-		if($handle=='elcc_layout_handle'){
-			return '<referenceContainer name="visual">
-			    <referenceBlock name="visual_block"><!-- %%block-title: Visual %% -->
-					<arguments>
-			          <argument name="title" xsi:type="string">%%editable: text : Titel %%</argument>
-			          <argument name="background_image" xsi:type="string">%%editable: image : Achtergrond afbeelding %%</argument>
-			          <argument name="top_list_id" xsi:type="string">%%editable:text:Top lijst #ID:Kan je vinden op de overzichtspagina van de toplijsten%%1</argument>
-			          <argument name="top_list_title" xsi:type="string">%%editable:text:Top lijst titel%%</argument>
-			          <argument name="top_list_subtitle" xsi:type="string">%%editable:text:Top lijst subtitel%%</argument>
-			        </arguments>
-			    </referenceBlock>
-			</referenceContainer>';
+		if($handle!='elcc_layout_handle') return "";
+
+		$elcc_active = $this->page->getData('elcc_active');
+		$elcc_generated = $this->page->getData('elcc_generated');
+
+		// is elcc active for current page and is elcc xml generated?
+		if($elcc_active=='1' && !empty($elcc_generated)){
+			return $elcc_generated;
 		}
         return '';
     }

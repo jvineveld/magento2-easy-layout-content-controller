@@ -63,6 +63,19 @@ class ElccLayoutInfo  {
 		];
 	}
 
+	private function getElccTemplateDataByPath($template_path){
+		$template = [];
+
+		foreach ($this->files as $i => $file) {
+			if($file[0] == $template_path)
+			{
+				$template = $this->get_template_data($file[0]);
+			}
+		}
+
+		return $template;
+	}
+
 	private function getElccTemplates(){
 		$this->elcc_templates = [];
 
@@ -81,5 +94,9 @@ class ElccLayoutInfo  {
 		$this->getElccTemplates();
 
 		return $this->elcc_templates;
+	}
+
+	public function get_template_by_path($template_path){
+		return $this->getElccTemplateDataByPath($template_path);
 	}
 }
