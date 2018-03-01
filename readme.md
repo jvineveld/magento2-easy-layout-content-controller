@@ -4,8 +4,12 @@ Goal:
 * Recognize page's current used cms page template, read the defined page_layout file, and extract options.
 * Display options at cms page, so clients can only say what the content should be. The layout is predefined and unchangeable.
 
-## Under development !! NOT WORKING
-Like really really in development. nothing works, don't expect something.
+ToDo's:
+* Validate input and check for valid xml before storing the data
+* Add wysiwyg input field support
+* Multiple image upload for 1 field support
+* add CDATA around input data in generated XML
+* Create a sample setup based on luma theme for demo of functionality
 
 ## templates
 This plugin requires you to create a folder, in the `[Your_Theme]/Magento_Theme/page_layout/` folder.
