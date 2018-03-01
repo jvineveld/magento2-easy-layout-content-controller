@@ -67,7 +67,7 @@ class InstallSchema implements InstallSchemaInterface
 			   [
 				   'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
 				   'length' => 1,
-				   'nullable' => false,
+				   'nullable' => true,
 				   'comment' => 'Is easy layout content controller active for this page?'
 			   ]
 		   );
@@ -81,7 +81,7 @@ class InstallSchema implements InstallSchemaInterface
 			  [
 				  'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
 				  'length' => null,
-				  'nullable' => false,
+				  'nullable' => true,
 				  'comment' => 'Chosen template path'
 			  ]
 		  );
@@ -95,7 +95,7 @@ class InstallSchema implements InstallSchemaInterface
 			  [
 				  'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
 				  'length' => null,
-				  'nullable' => false,
+				  'nullable' => true,
 				  'comment' => 'The chosen template with all the template literals replaced / removed.'
 			  ]
 		  );
