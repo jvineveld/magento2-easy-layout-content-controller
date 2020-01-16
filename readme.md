@@ -1,4 +1,4 @@
-# Repository not activly managed! 
+# Repository not actively managed! 
 
 If you wan't to use this, that's fine. Test it well before deployment, and if you find any bugs please submit a pull request.
 
