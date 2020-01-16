@@ -1,3 +1,7 @@
+# Repository not activly managed! 
+
+If you wan't to use this, that's fine. Test it well before deployment, and if you find any bugs please submit a pull request.
+
 # Magento2 plugin to control content defined in layout
 
 Goal:
